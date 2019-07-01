@@ -1,7 +1,7 @@
 module.exports = {
 	development: {
 		client: 'pg',
-		connection: 'postgress://localhost/pokemon',
+		connection: 'postgress://localhost/paintbrush',
 		migrations: {
 			directory: './db/migrations'
 		},
