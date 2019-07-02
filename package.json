@@ -1,21 +1,22 @@
 {
-  "name": "paintbrush-be",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon server.js",
-    "test": "jest --watchAll"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
-    "express": "^4.17.1",
-    "knex": "^0.18.1",
-    "pg": "^7.11.0",
-    "supertest": "^4.0.2"
-  }
+	"name": "paintbrush-be",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon server.js",
+		"test": "jest --forceExit",
+		"test:watch": "jest --watchAll"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"dotenv": "^8.0.0",
+		"express": "^4.17.1",
+		"knex": "^0.18.1",
+		"pg": "^7.11.0",
+		"supertest": "^4.0.2"
+	}
 }
