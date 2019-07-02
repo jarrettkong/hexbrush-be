@@ -11,4 +11,13 @@ describe('Server', () => {
 			expect(res.status).toBe(200);
 		});
 	});
+
+	describe('GET /api/v1/projects', () => {
+		it('should return all projects from the db', async () => {
+			const expected = await db('projects').select();
+			const res = await request(app).get('/api/v1/projects');
+			const projects = res.body;
+			expect(projects).toEqual(expected);
+		});
+	});
 });
