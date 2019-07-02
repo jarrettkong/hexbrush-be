@@ -6,10 +6,10 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-app.set('port', process.env.PORT || 3001);
-
 app.use(express.json());
 app.use(cors());
+
+app.set('port', process.env.PORT || 3001);
 
 app.get('/', (req, res) => {
 	res.sendStatus(200);
@@ -22,19 +22,19 @@ app.get('/api/v1/projects', (req, res) => {
 			if (!projects.length) {
 				return res.status(200).send('No data found in "projects" database.');
 			}
-			return res.status(200).send(projects);
+			return res.status(200).json(projects);
 		})
 		.catch(() => res.sendStatus(500));
 });
 
-app.get('api/v1/palettes', (req, res) => {
+app.get('/api/v1/palettes', (req, res) => {
 	db('palettes')
 		.select()
 		.then(palettes => {
 			if (!palettes.length) {
 				return res.status(200).send('No data found in "palettes" database.');
 			}
-			return res.status(200).send(palettes);
+			return res.status(200).json(palettes);
 		})
 		.catch(() => res.sendStatus(500));
 });
