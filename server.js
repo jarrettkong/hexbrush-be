@@ -46,9 +46,23 @@ app.get('/api/v1/projects/:id', (req, res) => {
 		.first()
 		.then(project => {
 			if (!project) {
-				return res.status(404).send(`No project found in "projects" with id of ${id}.`);
+				return res.status(404).send(`No entry found in "projects" with id of ${id}.`);
 			}
 			return res.status(200).json(project);
+		})
+		.catch(() => res.sendStatus(500));
+});
+
+app.get('/api/v1/palettes/:id', (req, res) => {
+	const id = parseInt(req.params.id);
+	db('palettes')
+		.where({ id })
+		.first()
+		.then(palette => {
+			if (!palette) {
+				return res.status(404).send(`No entry found in "palettes" with id of ${id}.`);
+			}
+			return res.status(200).json(palette);
 		})
 		.catch(() => res.sendStatus(500));
 });
