@@ -21,6 +21,12 @@ describe('Server', () => {
 			const expected = await db('projects').select();
 			const res = await request(app).get('/api/v1/projects');
 			const projects = res.body;
+
+			expected.forEach(e => {
+				e.created_at = e.created_at.toJSON();
+				e.updated_at = e.updated_at.toJSON();
+			});
+
 			expect(projects).toEqual(expected);
 		});
 	});
@@ -30,6 +36,12 @@ describe('Server', () => {
 			const expected = await db('palettes').select();
 			const res = await request(app).get('/api/v1/palettes');
 			const palettes = res.body;
+
+			expected.forEach(e => {
+				e.created_at = e.created_at.toJSON();
+				e.updated_at = e.updated_at.toJSON();
+			});
+
 			expect(palettes).toEqual(expected);
 		});
 	});
@@ -40,6 +52,10 @@ describe('Server', () => {
 			const id = expected.id;
 			const res = await request(app).get(`/api/v1/projects/${id}`);
 			const project = res.body;
+
+			expected.created_at = expected.created_at.toJSON();
+			expected.updated_at = expected.updated_at.toJSON();
+
 			expect(project).toEqual(expected);
 		});
 
@@ -56,9 +72,13 @@ describe('Server', () => {
 			const id = expected.id;
 			const res = await request(app).get(`/api/v1/palettes/${id}`);
 			const palette = res.body;
+
+			expected.created_at = expected.created_at.toJSON();
+			expected.updated_at = expected.updated_at.toJSON();
+
 			expect(palette).toEqual(expected);
 		});
-		
+
 		it('should return a 404 error if no palette found', async () => {
 			const res = await request(app).get('/api/v1/palettes/9999');
 			expect(res.status).toEqual(404);
