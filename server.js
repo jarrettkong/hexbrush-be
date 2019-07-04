@@ -97,6 +97,23 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 		.catch(() => res.sendStatus(500));
 });
 
+app.delete('/api/v1/palettes/:id', (req, res) => {
+	const id = parseInt(req.params.id);
+	const palette = db('palettes')
+		.where({ id })
+		.first();
+
+	if (!palette) {
+		return res.status(200).send(`No entry found in "palettes" with id of ${id} to delete.`);
+	}
+
+	db('palettes')
+		.where({ id })
+		.del()
+		.then(() => res.status(204).send(`Palette ${id} successfully deleted.`))
+		.catch(() => res.sendStaus(500));
+});
+
 app.listen(app.get('port'), console.log(`Listening on port ${app.get('port')}.`));
 
 module.exports = app;
