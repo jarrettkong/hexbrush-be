@@ -91,7 +91,6 @@ describe('Server', () => {
 			const query = await db('palettes')
 				.select()
 				.first();
-			console.log(query);
 			const id = query.id;
 			const body = {
 				name: 'My Palette',
@@ -104,8 +103,30 @@ describe('Server', () => {
 			const res = await request(app)
 				.put(`/api/v1/palettes/${id}`)
 				.send(body);
-			// expect(res.status).toEqual(200);
+			expect(res.status).toEqual(200);
 			expect(res.text).toEqual(`Palette ${id} successfully updated.`);
+		});
+
+		it('should update a palette with matching id', async () => {
+			const query = await db('palettes')
+				.select()
+				.first();
+			const id = query.id;
+			const body = {
+				name: 'My Palette 2',
+				color_1: '#000000',
+				color_2: '#000000',
+				color_3: '#000000',
+				color_4: '#000000',
+				color_5: '#000000'
+			};
+			await request(app)
+				.put(`/api/v1/palettes/${id}`)
+				.send(body);
+			const updated = await db('palettes')
+				.where({ id })
+				.first();
+			expect(updated).toEqual({ ...query, ...body });
 		});
 	});
 });
