@@ -85,4 +85,27 @@ describe('Server', () => {
 			expect(res.text).toEqual('No entry found in "palettes" with id of 9999.');
 		});
 	});
+
+	describe('PUT /api/v1/palettes/:id', () => {
+		it('should update a palette with matching id', async () => {
+			const query = await db('palettes')
+				.select()
+				.first();
+			console.log(query);
+			const id = query.id;
+			const body = {
+				name: 'My Palette',
+				color_1: '#ffffff',
+				color_2: '#ffffff',
+				color_3: '#000000',
+				color_4: '#ffffff',
+				color_5: '#ffffff'
+			};
+			const res = await request(app)
+				.put(`/api/v1/palettes/${id}`)
+				.send(body);
+			// expect(res.status).toEqual(200);
+			expect(res.text).toEqual(`Palette ${id} successfully updated.`);
+		});
+	});
 });
