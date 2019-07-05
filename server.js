@@ -69,11 +69,11 @@ app.get('/api/v1/palettes/:id', (req, res) => {
 
 app.put('/api/v1/palettes/:id', (req, res) => {
 	const id = parseInt(req.params.id);
-	const palette = req.body;
+	const paletteData = req.body;
 	const required = ['name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
 
 	for (let param of required) {
-		if (!palette[param]) {
+		if (!paletteData[param]) {
 			return res
 				.status(422)
 				.send(
@@ -85,14 +85,14 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 	db('palettes')
 		.where({ id })
 		.first()
-		.then(foundPalette => {
-			if (!foundPalette) {
+		.then(palette => {
+			if (!palette) {
 				return res.status(404).send(`No entry found in "palettes" with id of ${id} to update.`);
 			}
 
 			db('palettes')
 				.where({ id })
-				.update(palette)
+				.update(paletteData)
 				.then(() => res.status(200).send(`Palette ${id} successfully updated.`))
 				.catch(() => res.sendStatus(500));
 		})
@@ -101,19 +101,21 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 
 app.delete('/api/v1/palettes/:id', (req, res) => {
 	const id = parseInt(req.params.id);
-	const palette = db('palettes')
-		.where({ id })
-		.first();
-
-	if (!palette) {
-		return res.status(200).send(`No entry found in "palettes" with id of ${id} to delete.`);
-	}
-
 	db('palettes')
 		.where({ id })
-		.del()
-		.then(() => res.status(200).send(`Palette ${id} successfully deleted.`))
-		.catch(() => res.sendStaus(500));
+		.first()
+		.then(palette => {
+			if (!palette) {
+				return res.status(200).send(`No entry found in "palettes" with id of ${id} to delete.`);
+			}
+
+			db('palettes')
+				.where({ id })
+				.del()
+				.then(() => res.status(200).send(`Palette ${id} successfully deleted.`))
+				.catch(() => res.sendStatus(500));
+		})
+		.catch(() => res.sendStatus(500));
 });
 
 app.listen(app.get('port'), console.log(`Listening on port ${app.get('port')}.`));

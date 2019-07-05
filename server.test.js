@@ -134,10 +134,10 @@ describe('Server', () => {
 				color_5: '#ffffff'
 			};
 			const res = await request(app)
-				.put('/api/v1/palettes/1')
+				.put('/api/v1/palettes/999')
 				.send(body);
 			expect(res.status).toEqual(404);
-			expect(res.text).toEqual(`No entry found in "palettes" with id of 1 to update.`);
+			expect(res.text).toEqual(`No entry found in "palettes" with id of 999 to update.`);
 		});
 
 		it('should update a palette with matching id', async () => {
@@ -163,5 +163,29 @@ describe('Server', () => {
 		});
 	});
 
-	describe('DELETE /api/v1/palettes/:id', () => {});
+	describe('DELETE /api/v1/palettes/:id', () => {
+		it('should return a message saying the palette was updated', async () => {
+			const query = await db('palettes')
+				.select()
+				.first();
+			const id = query.id;
+			const res = await request(app).delete(`/api/v1/palettes/${id}`);
+			expect(res.status).toEqual(200);
+			expect(res.text).toEqual(`Palette ${id} successfully deleted.`);
+		});
+
+		it('should return a message saying the id was not found with 200 error', async () => {
+			const res = await request(app).delete('/api/v1/palettes/999');
+			expect(res.status).toEqual(200);
+			expect(res.text).toEqual(`No entry found in "palettes" with id of 999 to delete.`);
+		});
+
+		it('should delete a palette with matching id', async () => {
+			await request(app).delete(`/api/v1/palettes/2`);
+			const result = await db('palettes')
+				.where({ id: 2 })
+				.first();
+			expect(result).toEqual(undefined);
+		});
+	});
 });
