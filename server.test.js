@@ -87,7 +87,7 @@ describe('Server', () => {
 	});
 
 	describe('PUT /api/v1/palettes/:id', () => {
-		it('should update a palette with matching id', async () => {
+		it('should return a message saying the palette was updated', async () => {
 			const query = await db('palettes')
 				.select()
 				.first();
@@ -105,6 +105,39 @@ describe('Server', () => {
 				.send(body);
 			expect(res.status).toEqual(200);
 			expect(res.text).toEqual(`Palette ${id} successfully updated.`);
+		});
+
+		it('should return a message saying the format was wrong with 422 error', async () => {
+			const body = {
+				color_1: '#ffffff',
+				color_2: '#ffffff',
+				color_3: '#000000',
+				color_4: '#ffffff',
+				color_5: '#ffffff'
+			};
+			const res = await request(app)
+				.put('/api/v1/palettes/1')
+				.send(body);
+			expect(res.status).toEqual(422);
+			expect(res.text).toEqual(
+				'Expected format: { name: <String>, color_1: <String>, ... , color_5: <String>}. You are missing the name parameter.'
+			);
+		});
+
+		it('should return a message saying the id was not found with 404 error', async () => {
+			const body = {
+				name: 'My updated palette',
+				color_1: '#ffffff',
+				color_2: '#ffffff',
+				color_3: '#000000',
+				color_4: '#ffffff',
+				color_5: '#ffffff'
+			};
+			const res = await request(app)
+				.put('/api/v1/palettes/1')
+				.send(body);
+			expect(res.status).toEqual(404);
+			expect(res.text).toEqual(`No entry found in "palettes" with id of 1 to update.`);
 		});
 
 		it('should update a palette with matching id', async () => {
@@ -129,4 +162,6 @@ describe('Server', () => {
 			expect(updated).toEqual({ ...query, ...body });
 		});
 	});
+
+	describe('DELETE /api/v1/palettes/:id', () => {});
 });

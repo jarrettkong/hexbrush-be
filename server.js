@@ -82,18 +82,20 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 		}
 	}
 
-	const paletteToUpdate = db('palettes')
-		.where({ id })
-		.first();
-
-	if (!paletteToUpdate) {
-		return res.status(404).send(`No entry found in "palettes" with id of ${id} to update.`);
-	}
-
 	db('palettes')
 		.where({ id })
-		.update(palette)
-		.then(() => res.status(200).send(`Palette ${id} successfully updated.`))
+		.first()
+		.then(foundPalette => {
+			if (!foundPalette) {
+				return res.status(404).send(`No entry found in "palettes" with id of ${id} to update.`);
+			}
+
+			db('palettes')
+				.where({ id })
+				.update(palette)
+				.then(() => res.status(200).send(`Palette ${id} successfully updated.`))
+				.catch(() => res.sendStatus(500));
+		})
 		.catch(() => res.sendStatus(500));
 });
 
@@ -110,7 +112,7 @@ app.delete('/api/v1/palettes/:id', (req, res) => {
 	db('palettes')
 		.where({ id })
 		.del()
-		.then(() => res.status(204).send(`Palette ${id} successfully deleted.`))
+		.then(() => res.status(200).send(`Palette ${id} successfully deleted.`))
 		.catch(() => res.sendStaus(500));
 });
 
