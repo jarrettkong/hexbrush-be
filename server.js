@@ -39,6 +39,24 @@ app.get('/api/v1/palettes', (req, res) => {
 		.catch(() => res.sendStatus(500));
 });
 
+app.post('/api/v1/palettes', (req, res) => {
+	const palette = req.body;
+	const required = ['name', 'project_id', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+	for (let param of required) {
+		if (!palette[param]) {
+			return res
+				.status(422)
+				.send(
+					`Expected format: { name: <String>, project_id: <Number>, color_1: <String>, ... , color_5: <String>}. You are missing the ${param} parameter.`
+				);
+		}
+	}
+	db('palettes')
+		.insert(palette)
+		.then(() => res.sendStatus(201))
+		.catch(() => res.sendStatus(500));
+});
+
 app.get('/api/v1/projects/:id', (req, res) => {
 	const id = parseInt(req.params.id);
 	db('projects')
