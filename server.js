@@ -30,11 +30,11 @@ app.get('/api/v1/projects', (req, res) => {
 app.get('/api/v1/palettes', (req, res) => {
 	db('palettes')
 		.select()
-		.then(palettes => {
-			if (!palettes.length) {
+		.then(palettesData => {
+			if (!palettesData.length) {
 				return res.status(200).send('No data found in "palettes" database.');
 			}
-			return res.status(200).json(palettes);
+			return res.status(200).json(palettesData);
 		})
 		.catch(() => res.sendStatus(500));
 });
@@ -53,7 +53,9 @@ app.post('/api/v1/palettes', (req, res) => {
 	}
 	db('palettes')
 		.insert(paletteData, '*')
-		.then(palette => res.status(201).json(palette[0]))
+		.then(palette => res.status(201))
+		.json(palette[0])
+
 		.catch(() => res.sendStatus(500));
 });
 
@@ -62,20 +64,21 @@ app.get('/api/v1/projects/:id', (req, res) => {
 	db('projects')
 		.where({ id })
 		.first()
-		.then(project => {
-			if (!project) {
-				return res.status(404).send(`No entry found in "projects" with id of ${id}.`);
+		.then(projectData => {
+			if (!projectData) {
+				return res.status(404).send(`No entry found in "projectDatas" with id of ${id}.`);
 			}
-			return res.status(200).json(project);
+			return res.status(200).json(projectData);
 		})
 		.catch(() => res.sendStatus(500));
 });
 
-app.post('/api/v1/projects', (request, response) => {
-	const project = request.body;
-	const format = ['name', 'id'];
+app.post('/api/v1/projects', (req, response) => {
+	const projectData = req.body;
+	const format = [ 'name', 'id' ];
+
 	for (let requiredParam of format) {
-		if (!project[requiredParam] && !project[requiredParam] === '') {
+		if (!projectData[requiredParam] && !projectData[requiredParam] === '') {
 			return response.status(422).send({
 				error: `Expected format: ${format}. You are missing ${requiredParam}.`
 			});
@@ -83,9 +86,9 @@ app.post('/api/v1/projects', (request, response) => {
 	}
 
 	db('projects')
-		.insert(project, '*')
-		.then(project => {
-			response.status(201).json(project[0]);
+		.insert(projectData, '*')
+		.then(projectData => {
+			response.status(201).json(projectData[0]);
 		})
 		.catch(error => {
 			response.status(500).json({ error });
@@ -97,8 +100,8 @@ app.get('/api/v1/palettes/:id', (req, res) => {
 	db('palettes')
 		.where({ id })
 		.first()
-		.then(palette => {
-			if (!palette) {
+		.then(paletteData => {
+			if (!paletteData) {
 				return res.status(404).send(`No entry found in "palettes" with id of ${id}.`);
 			}
 			return res.status(200).json(palette);
@@ -124,8 +127,8 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 	db('palettes')
 		.where({ id })
 		.first()
-		.then(palette => {
-			if (!palette) {
+		.then(paletteData => {
+			if (!paletteData) {
 				return res.status(404).send(`No entry found in "palettes" with id of ${id} to update.`);
 			}
 
@@ -155,8 +158,8 @@ app.put('/api/v1/projects/:id', (req, res) => {
 	db('projects')
 		.where({ id })
 		.first()
-		.then(palette => {
-			if (!palette) {
+		.then(paletteData => {
+			if (!paletteData) {
 				return res.status(404).send(`No entry found in "projects" with id of ${id} to update.`);
 			}
 
@@ -174,11 +177,10 @@ app.delete('/api/v1/palettes/:id', (req, res) => {
 	db('palettes')
 		.where({ id })
 		.first()
-		.then(palette => {
-			if (!palette) {
+		.then(paletteData => {
+			if (!paletteData) {
 				return res.status(200).send(`No entry found in "palettes" with id of ${id} to delete.`);
 			}
-
 			db('palettes')
 				.where({ id })
 				.del()
@@ -194,8 +196,8 @@ app.delete('/api/v1/projects/:id', (req, res) => {
 	db('projects')
 		.where({ id })
 		.first()
-		.then(project => {
-			if (!project) {
+		.then(projectData => {
+			if (!projectData) {
 				return res.status(200).send(`No entry found in "projects" with id of ${id} to delete.`);
 			}
 			db('projects')
