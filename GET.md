@@ -59,7 +59,7 @@ For a project with an ID of 2: `/api/v1/projects/2`
 ```json
 {
     "id": 2,
-    "first_name": "",
+    "name": "Dog Party",
   
 ```
 
