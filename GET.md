@@ -39,7 +39,8 @@ Get a specific existing Project
 **Code** : `200 OK`
 
 **Content examples**
-For a project with an ID of 1:
+
+For a project with an ID of 1:`/api/v1/projects/2
 
 ```json
 {
@@ -153,10 +154,10 @@ For a palette with an ID of 2: `/api/v1/palettes/2`
   {
     "id" : 2,
     "project_id" : 2,
-    "name" : DogParty,
+    "name" : "DogParty",
     "updated_at" : "2019-07-07 07:01:57.483445-06",
     "created_at" : "2019-07-07 07:01:57.483445-06",
-    "color_1" : "#a05dd3"
+    "color_1" : "#a05dd3",
     "color_2" : "#e041f2",
     "color_3" : "#89ed5e",
     "color_4" : "#25a01c",
