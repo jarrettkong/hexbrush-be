@@ -54,6 +54,7 @@ app.get("/api/v1/projects/:id", (req, res) => {
     })
     .catch(() => res.sendStatus(500));
 });
+// !
 app.post("/api/v1/projects", (request, response) => {
   const project = request.body;
   const format = ["name", "id"];
@@ -190,10 +191,9 @@ app.delete("/api/v1/palettes/:id", (req, res) => {
     .catch(() => res.sendStatus(500));
 });
 
-// ! not working
+// ! 
 app.delete("/api/v1/projects/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  console.log(id);
   db("projects")
     .where({ id })
     .first()
@@ -205,8 +205,8 @@ app.delete("/api/v1/projects/:id", (req, res) => {
       }
 
       db("projects")
-        .where({ id })
-        .del()
+		.where({ id })
+		.delete()
         .then(() => res.status(200).send(`project ${id} successfully deleted.`))
         .catch(() => res.sendStatus(500));
     })
