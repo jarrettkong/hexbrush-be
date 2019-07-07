@@ -53,7 +53,7 @@ app.post('/api/v1/palettes', (req, res) => {
 	}
 	db('palettes')
 		.insert(paletteData, '*')
-		.then(palette => res.staus(201).json(palette[0]))
+		.then(palette => res.status(201).json(palette[0]))
 		.catch(() => res.sendStatus(500));
 });
 
