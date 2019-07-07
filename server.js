@@ -18,11 +18,11 @@ app.get('/', (req, res) => {
 app.get('/api/v1/projects', (req, res) => {
 	db('projects')
 		.select()
-		.then(projects => {
-			if (!projects.length) {
+		.then(projectsData => {
+			if (!projectsData.length) {
 				return res.status(200).send('No data found in "projects" database.');
 			}
-			return res.status(200).json(projects);
+			return res.status(200).json(projectsData);
 		})
 		.catch(() => res.sendStatus(500));
 });
@@ -41,7 +41,7 @@ app.get('/api/v1/palettes', (req, res) => {
 
 app.post('/api/v1/palettes', (req, res) => {
 	const paletteData = req.body;
-	const required = ['name', 'project_id', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+	const required = [ 'name', 'project_id', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5' ];
 	for (let param of required) {
 		if (!paletteData[param]) {
 			return res
@@ -53,9 +53,8 @@ app.post('/api/v1/palettes', (req, res) => {
 	}
 	db('palettes')
 		.insert(paletteData, '*')
-		.then(palette => res.status(201))
+		.then(res => res.status(201))
 		.json(palette[0])
-
 		.catch(() => res.sendStatus(500));
 });
 
@@ -66,7 +65,7 @@ app.get('/api/v1/projects/:id', (req, res) => {
 		.first()
 		.then(projectData => {
 			if (!projectData) {
-				return res.status(404).send(`No entry found in "projectDatas" with id of ${id}.`);
+				return res.status(404).send(`No entry found in "projects" with id of ${id}.`);
 			}
 			return res.status(200).json(projectData);
 		})
@@ -112,7 +111,7 @@ app.get('/api/v1/palettes/:id', (req, res) => {
 app.put('/api/v1/palettes/:id', (req, res) => {
 	const id = parseInt(req.params.id);
 	const paletteData = req.body;
-	const required = ['name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+	const required = [ 'name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5' ];
 
 	for (let param of required) {
 		if (!paletteData[param]) {
@@ -145,7 +144,7 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 app.put('/api/v1/projects/:id', (req, res) => {
 	const id = parseInt(req.params.id);
 	const projectData = req.body;
-	const required = ['name', 'id'];
+	const required = [ 'name', 'id' ];
 
 	for (let param of required) {
 		if (!projectData[param]) {
