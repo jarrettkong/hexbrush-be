@@ -53,8 +53,7 @@ app.post('/api/v1/palettes', (req, res) => {
 	}
 	db('palettes')
 		.insert(paletteData, '*')
-		.then(res => res.status(201))
-		.json(palette[0])
+		.then(palette => res.status(201).json(palette[0]))
 		.catch(() => res.sendStatus(500));
 });
 
@@ -103,7 +102,7 @@ app.get('/api/v1/palettes/:id', (req, res) => {
 			if (!paletteData) {
 				return res.status(404).send(`No entry found in "palettes" with id of ${id}.`);
 			}
-			return res.status(200).json(palette);
+			return res.status(200).json(paletteData);
 		})
 		.catch(() => res.sendStatus(500));
 });
