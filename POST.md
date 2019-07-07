@@ -17,7 +17,8 @@ POST a new project to the Database
 
 **Sample-Body** : 
 ```js
-{"name": "Dog Party",
+  {
+    "name": "Dog Party",
     "id": 10,
     "project_id": 4,
     "name": "My Palette",
@@ -26,8 +27,8 @@ POST a new project to the Database
     "color_3": "#000000",
     "color_4": "#ffffff",
     "color_5": "#ffffff"
-    }
-    ```
+  }
+```
 
 **Content example**
 ```json
