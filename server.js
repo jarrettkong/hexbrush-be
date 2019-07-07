@@ -41,7 +41,7 @@ app.get('/api/v1/palettes', (req, res) => {
 
 app.post('/api/v1/palettes', (req, res) => {
 	const palette = req.body;
-	const required = ['name', 'project_id', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+	const required = [ 'name', 'project_id', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5' ];
 	for (let param of required) {
 		if (!palette[param]) {
 			return res
@@ -51,10 +51,7 @@ app.post('/api/v1/palettes', (req, res) => {
 				);
 		}
 	}
-	db('palettes')
-		.insert(palette)
-		.then(() => res.sendStatus(201))
-		.catch(() => res.sendStatus(500));
+	db('palettes').insert(palette).then(() => res.sendStatus(201)).catch(() => res.sendStatus(500));
 });
 
 app.get('/api/v1/projects/:id', (req, res) => {
@@ -83,9 +80,9 @@ app.post('/api/v1/projects', (request, response) => {
 	}
 
 	db('projects')
-		.insert(project, 'id')
+		.insert(project, '*')
 		.then(project => {
-			response.status(201).json({ id: project[0] });
+			response.status(201).json(project[0]);
 		})
 		.catch(error => {
 			response.status(500).json({ error });
