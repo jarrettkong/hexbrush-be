@@ -30,7 +30,7 @@ POST a new project to the Database
   }
 ```
 
-**Content example**
+**Response example** :
 ```json
 {
     "id": 2,
