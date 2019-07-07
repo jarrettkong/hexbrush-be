@@ -7,7 +7,6 @@
 		"start": "nodemon server.js",
 		"test": "jest --forceExit",
 		"test:watch": "jest --watchAll",
-		"start:dev" : "nodemon --watch"
 	},
 	"keywords": [],
 	"author": "",
