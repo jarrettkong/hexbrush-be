@@ -1,7 +1,36 @@
 # POST
+## POST a Project
+POST a new project to the Database
+
+**URL** : `/api/v1/projects/`
+
+***Method*** : `POST`
+
+**Permissions required** : None
+
+## Success Response
+
+**Code** : `201 OK`
+
+**Content-Type** : `application/json`
+
+**Sample-Body** : 
+```js
+  {
+    "name": "DogParty",
+  }
+```
+
+**Response example** :
+```json
+{
+    "id": 2,
+    "name": "Dog Party",
+}
+```
 
 ## POST a Palette
-POST a new project to the Database
+POST a new palette to the Database
 
 **URL** : `/api/v1/palettes/`
 
