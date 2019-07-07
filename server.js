@@ -18,11 +18,11 @@ app.get('/', (req, res) => {
 app.get('/api/v1/projects', (req, res) => {
 	db('projects')
 		.select()
-		.then(projects => {
-			if (!projects.length) {
+		.then(projectsData => {
+			if (!projectsData.length) {
 				return res.status(200).send('No data found in "projects" database.');
 			}
-			return res.status(200).json(projects);
+			return res.status(200).json(projectsData);
 		})
 		.catch(() => res.sendStatus(500));
 });
@@ -65,7 +65,7 @@ app.get('/api/v1/projects/:id', (req, res) => {
 		.first()
 		.then(projectData => {
 			if (!projectData) {
-				return res.status(404).send(`No entry found in "projectDatas" with id of ${id}.`);
+				return res.status(404).send(`No entry found in "projects" with id of ${id}.`);
 			}
 			return res.status(200).json(projectData);
 		})
@@ -75,6 +75,7 @@ app.get('/api/v1/projects/:id', (req, res) => {
 app.post('/api/v1/projects', (req, response) => {
 	const projectData = req.body;
 	const format = [ 'name', 'id' ];
+
 	for (let requiredParam of format) {
 		if (!projectData[requiredParam] && !projectData[requiredParam] === '') {
 			return response.status(422).send({
