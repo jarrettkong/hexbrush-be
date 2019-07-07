@@ -149,7 +149,6 @@ For a palette with an ID of 1: `/api/v1/palettes/1`
 For a palette with an ID of 2: `/api/v1/palettes/2`
 
 ```json
-{
 [
   {
     "id" : 2,
@@ -168,3 +167,4 @@ For a palette with an ID of 2: `/api/v1/palettes/2`
 ```
 
 ## Notes
+
