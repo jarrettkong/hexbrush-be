@@ -22,7 +22,7 @@ describe('Server', () => {
 			const res = await request(app).get('/api/v1/projects');
 			const projects = res.body;
 
-			expected.forEach(e => {
+			expected.forEach((e) => {
 				e.created_at = e.created_at.toJSON();
 				e.updated_at = e.updated_at.toJSON();
 			});
@@ -37,7 +37,7 @@ describe('Server', () => {
 			const res = await request(app).get('/api/v1/palettes');
 			const palettes = res.body;
 
-			expected.forEach(e => {
+			expected.forEach((e) => {
 				e.created_at = e.created_at.toJSON();
 				e.updated_at = e.updated_at.toJSON();
 			});
@@ -88,9 +88,7 @@ describe('Server', () => {
 
 	describe('PUT /api/v1/palettes/:id', () => {
 		it('should return a message saying the palette was updated', async () => {
-			const query = await db('palettes')
-				.select()
-				.first();
+			const query = await db('palettes').select().first();
 			const id = query.id;
 			const body = {
 				name: 'My Palette',
@@ -100,9 +98,7 @@ describe('Server', () => {
 				color_4: '#ffffff',
 				color_5: '#ffffff'
 			};
-			const res = await request(app)
-				.put(`/api/v1/palettes/${id}`)
-				.send(body);
+			const res = await request(app).put(`/api/v1/palettes/${id}`).send(body);
 			expect(res.status).toEqual(200);
 			expect(res.text).toEqual(`Palette ${id} successfully updated.`);
 		});
@@ -115,9 +111,7 @@ describe('Server', () => {
 				color_4: '#ffffff',
 				color_5: '#ffffff'
 			};
-			const res = await request(app)
-				.put('/api/v1/palettes/1')
-				.send(body);
+			const res = await request(app).put('/api/v1/palettes/1').send(body);
 			expect(res.status).toEqual(422);
 			expect(res.text).toEqual(
 				'Expected format: { name: <String>, color_1: <String>, ... , color_5: <String>}. You are missing the name parameter.'
@@ -133,17 +127,13 @@ describe('Server', () => {
 				color_4: '#ffffff',
 				color_5: '#ffffff'
 			};
-			const res = await request(app)
-				.put('/api/v1/palettes/999')
-				.send(body);
+			const res = await request(app).put('/api/v1/palettes/999').send(body);
 			expect(res.status).toEqual(404);
 			expect(res.text).toEqual(`No entry found in "palettes" with id of 999 to update.`);
 		});
 
 		it('should update a palette with matching id', async () => {
-			const query = await db('palettes')
-				.select()
-				.first();
+			const query = await db('palettes').select().first();
 			const id = query.id;
 			const body = {
 				name: 'My Palette 2',
@@ -153,21 +143,15 @@ describe('Server', () => {
 				color_4: '#000000',
 				color_5: '#000000'
 			};
-			await request(app)
-				.put(`/api/v1/palettes/${id}`)
-				.send(body);
-			const updated = await db('palettes')
-				.where({ id })
-				.first();
+			await request(app).put(`/api/v1/palettes/${id}`).send(body);
+			const updated = await db('palettes').where({ id }).first();
 			expect(updated).toEqual({ ...query, ...body });
 		});
 	});
 
 	describe('DELETE /api/v1/palettes/:id', () => {
 		it('should return a message saying the palette was updated', async () => {
-			const query = await db('palettes')
-				.select()
-				.first();
+			const query = await db('palettes').select().first();
 			const id = query.id;
 			const res = await request(app).delete(`/api/v1/palettes/${id}`);
 			expect(res.status).toEqual(200);
@@ -182,9 +166,7 @@ describe('Server', () => {
 
 		it('should delete a palette with matching id', async () => {
 			await request(app).delete(`/api/v1/palettes/2`);
-			const result = await db('palettes')
-				.where({ id: 2 })
-				.first();
+			const result = await db('palettes').where({ id: 2 }).first();
 			expect(result).toEqual(undefined);
 		});
 	});
