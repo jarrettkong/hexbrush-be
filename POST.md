@@ -25,7 +25,7 @@ POST a new project to the Database
 ```json
 {
     "id": 2,
-    "name": "Dog Party",
+    "name": "Dog Party"
 }
 ```
 
