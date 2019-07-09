@@ -24,7 +24,7 @@
 
 **URL** : `/api/v1/projects/:id`
 
-***Method*** : `GET`
+***Method*** : `DELETE`
 
 **Permissions required** : None
 
