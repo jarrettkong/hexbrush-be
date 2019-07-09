@@ -10,12 +10,13 @@
 
 ## Success Response
 
-**Code** : `202 OK`
+**Code** : `200 OK`
 
 **Content example**
 ```json
 {
-    "id": 1
+    "id": 1,
+    "project
 }
 ```
 ## PUT a specific palette
@@ -29,7 +30,7 @@
 
 ## Success Response
 
-**Code** : `202 OK`
+**Code** : `200 OK`
 
 **Content examples**
 
