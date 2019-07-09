@@ -1,16 +1,16 @@
 # Hexbrush API Documentation
 
 ## GET
-GET documentation is located [here](https://github.com/jarrettkong/hexbrush-be/blob/master/GET.md)
+`GET` documentation is located [here](https://github.com/jarrettkong/hexbrush-be/blob/master/GET.md)
 
 
 ## POST
-GET documentation is located [here](https://github.com/jarrettkong/hexbrush-be/blob/master/POST.md)
+`POST` documentation is located [here](https://github.com/jarrettkong/hexbrush-be/blob/master/POST.md)
 
 
 ## PUT
-GET documentation is located [here](https://github.com/jarrettkong/hexbrush-be/blob/master/PUT.md)
+`PUT` documentation is located [here](https://github.com/jarrettkong/hexbrush-be/blob/master/PUT.md)
 
 
 ## DELETE
-GET documentation is located [here](https://github.com/jarrettkong/hexbrush-be/blob/master/DELETE.md)
+`DELETE` documentation is located [here](https://github.com/jarrettkong/hexbrush-be/blob/master/DELETE.md)
