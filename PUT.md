@@ -16,7 +16,7 @@
 ```json
 {
     "id": 1,
-    "project
+    "name" : "DogParty"
 }
 ```
 ## PUT a specific palette
