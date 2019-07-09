@@ -34,10 +34,17 @@
 
 **Content examples**
 
-For a project with an ID of 1:`/api/v1/projects/1`
+For a palette with an ID of 10:`/api/v1/projects/10`
 
 ```json
 {
-    "id": 1
+    "id": 10,
+    "project_id": 4,
+    "name": "My Palette",
+    "color_1": "#ffffff",
+    "color_2": "#ffffff",
+    "color_3": "#000000",
+    "color_4": "#ffffff",
+    "color_5": "#ffffff"
 }
 ```
