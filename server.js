@@ -146,17 +146,15 @@ app.put('/api/v1/projects/:id', (req, res) => {
 
 	for (let param of required) {
 		if (!projectData[param]) {
-			return res
-				.status(422)
-				.send(`Expected format: { name: <String>, id: <number>}. You are missing the ${param} parameter.`);
+			return res.status(422).send(`Expected format: { name: <String> }. You are missing the ${param} parameter.`);
 		}
 	}
 
 	db('projects')
 		.where({ id })
 		.first()
-		.then(projectData => {
-			if (!projectData) {
+		.then(project => {
+			if (!project) {
 				return res.status(404).send(`No entry found in "projects" with id of ${id} to update.`);
 			}
 			db('projects')
