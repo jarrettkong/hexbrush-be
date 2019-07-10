@@ -45,7 +45,7 @@ POST a new palette to the Database
 **Content-Type** : `application/json`
 
 **Sample-Body** : 
-```js
+```json
   {
     "name": "Dog Party",
     "id": 10,

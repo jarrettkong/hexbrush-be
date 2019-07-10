@@ -155,11 +155,10 @@ app.put('/api/v1/projects/:id', (req, res) => {
 	db('projects')
 		.where({ id })
 		.first()
-		.then(paletteData => {
-			if (!paletteData) {
+		.then(projectData => {
+			if (!projectData) {
 				return res.status(404).send(`No entry found in "projects" with id of ${id} to update.`);
 			}
-
 			db('projects')
 				.where({ id })
 				.update(projectData)
