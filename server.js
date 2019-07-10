@@ -111,7 +111,6 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 	const id = parseInt(req.params.id);
 	const paletteData = req.body;
 	const required = [ 'name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5' ];
-
 	for (let param of required) {
 		if (!paletteData[param]) {
 			return res
@@ -125,8 +124,8 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 	db('palettes')
 		.where({ id })
 		.first()
-		.then(paletteData => {
-			if (!paletteData) {
+		.then(result => {
+			if (!result) {
 				return res.status(404).send(`No entry found in "palettes" with id of ${id} to update.`);
 			}
 
@@ -139,12 +138,10 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 		.catch(() => res.sendStatus(500));
 });
 
-// !
 app.put('/api/v1/projects/:id', (req, res) => {
 	const id = parseInt(req.params.id);
 	const projectData = req.body;
 	const required = [ 'name', 'id' ];
-
 	for (let param of required) {
 		if (!projectData[param]) {
 			return res
@@ -156,11 +153,10 @@ app.put('/api/v1/projects/:id', (req, res) => {
 	db('projects')
 		.where({ id })
 		.first()
-		.then(paletteData => {
-			if (!paletteData) {
+		.then(projectData => {
+			if (!projectData) {
 				return res.status(404).send(`No entry found in "projects" with id of ${id} to update.`);
 			}
-
 			db('projects')
 				.where({ id })
 				.update(projectData)
