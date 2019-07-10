@@ -134,7 +134,7 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 				.where({ id })
 				.update(paletteData, '*')
 				.then(() => res.status(200).send(`Palette ${id} successfully updated.`))
-				.catch(() => res.sendStatus(500));
+				// .catch(() => res.sendStatus(500));
 		})
 		.catch(() => res.sendStatus(500));
 });
