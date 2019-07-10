@@ -134,7 +134,7 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 				.where({ id })
 				.update(paletteData, '*')
 				.then(() => res.status(200).send(`Palette ${id} successfully updated.`))
-				// .catch(() => res.sendStatus(500));
+				.catch(() => res.sendStatus(500));
 		})
 		.catch(() => res.sendStatus(500));
 });
@@ -203,7 +203,6 @@ app.delete('/api/v1/projects/:id', (req, res) => {
 						.then(() =>
 							res.status(200).send(`Project and associated palettes with id: ${id} have been successfully deleted.`)
 						)
-						.catch(() => res.sendStatus(500))
 				);
 		})
 		.catch(() => res.sendStatus(500));
