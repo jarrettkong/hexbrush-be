@@ -41,7 +41,7 @@ app.get('/api/v1/palettes', (req, res) => {
 
 app.post('/api/v1/palettes', (req, res) => {
 	const paletteData = req.body;
-	const required = [ 'name', 'project_id', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5' ];
+	const required = ['name', 'project_id', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
 	for (let param of required) {
 		if (!paletteData[param]) {
 			return res
@@ -73,7 +73,7 @@ app.get('/api/v1/projects/:id', (req, res) => {
 
 app.post('/api/v1/projects', (req, response) => {
 	const projectData = req.body;
-	const format = [ 'name', 'id' ];
+	const format = ['name', 'id'];
 
 	for (let requiredParam of format) {
 		if (!projectData[requiredParam] && !projectData[requiredParam] === '') {
@@ -110,7 +110,8 @@ app.get('/api/v1/palettes/:id', (req, res) => {
 app.put('/api/v1/palettes/:id', (req, res) => {
 	const id = parseInt(req.params.id);
 	const paletteData = req.body;
-	const required = [ 'name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5' ];
+	const required = ['name', 'color_1', 'color_2', 'color_3', 'color_4', 'color_5'];
+
 	for (let param of required) {
 		if (!paletteData[param]) {
 			return res
@@ -131,7 +132,7 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 
 			db('palettes')
 				.where({ id })
-				.update(paletteData)
+				.update(paletteData, '*')
 				.then(() => res.status(200).send(`Palette ${id} successfully updated.`))
 				.catch(() => res.sendStatus(500));
 		})
@@ -141,7 +142,8 @@ app.put('/api/v1/palettes/:id', (req, res) => {
 app.put('/api/v1/projects/:id', (req, res) => {
 	const id = parseInt(req.params.id);
 	const projectData = req.body;
-	const required = [ 'name', 'id' ];
+	const required = ['name'];
+
 	for (let param of required) {
 		if (!projectData[param]) {
 			return res
@@ -184,7 +186,6 @@ app.delete('/api/v1/palettes/:id', (req, res) => {
 		.catch(() => res.sendStatus(500));
 });
 
-// !
 app.delete('/api/v1/projects/:id', (req, res) => {
 	const id = parseInt(req.params.id);
 	db('projects')
@@ -194,11 +195,11 @@ app.delete('/api/v1/projects/:id', (req, res) => {
 			if (!projectData) {
 				return res.status(200).send(`No entry found in "projects" with id of ${id} to delete.`);
 			}
-			db('projects')
-				.where({ id })
+			db('palettes')
+				.where({ project_id: id })
 				.del()
 				.then(
-					db('palettes')
+					db('projects')
 						.where({ id })
 						.del()
 						.then(() =>
