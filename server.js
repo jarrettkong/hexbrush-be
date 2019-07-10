@@ -196,14 +196,15 @@ app.delete('/api/v1/projects/:id', (req, res) => {
 			db('palettes')
 				.where({ project_id: id })
 				.del()
-				.then(
+				.then(() => {
 					db('projects')
 						.where({ id })
 						.del()
 						.then(() =>
 							res.status(200).send(`Project and associated palettes with id: ${id} have been successfully deleted.`)
 						)
-				);
+						.catch(() => res.sendStatus(500));
+				});
 		})
 		.catch(() => res.sendStatus(500));
 });
