@@ -22,7 +22,7 @@ describe('Server', () => {
 			const res = await request(app).get('/api/v1/projects');
 			const projects = res.body;
 
-			expected.forEach((e) => {
+			expected.forEach(e => {
 				e.created_at = e.created_at.toJSON();
 				e.updated_at = e.updated_at.toJSON();
 			});
@@ -37,7 +37,7 @@ describe('Server', () => {
 			const res = await request(app).get('/api/v1/palettes');
 			const palettes = res.body;
 
-			expected.forEach((e) => {
+			expected.forEach(e => {
 				e.created_at = e.created_at.toJSON();
 				e.updated_at = e.updated_at.toJSON();
 			});
@@ -148,6 +148,40 @@ describe('Server', () => {
 			expect(updated).toEqual({ ...query, ...body });
 		});
 	});
+	describe('PUT /api/v1/projects/:id', () => {
+		it('should return a message saying the project was updated', async () => {
+			const query = await db('projects').select().first();
+			const id = query.id;
+			const body = {
+				name: 'My Project',
+				id: 1
+			};
+			const res = await request(app).put(`/api/v1/projects/${id}`).send(body);
+			expect(res.status).toEqual(200);
+			expect(res.text).toEqual(`ProjectData ${id} successfully updated.`);
+		});
+		it('should an error of 422 if the body is missing a required parameter', async () => {
+			const query = await db('projects').select().first();
+			const id = query.id;
+			const body = {
+				name: 'My Project'
+			};
+			const res = await request(app).put(`/api/v1/projects/${id}`).send(body);
+			expect(res.status).toEqual(422);
+			expect(res.text).toEqual(`Expected format: { name: <String>, id: <number>}. You are missing the id parameter.`);
+		});
+		it("should return an error of 404 if the project isn't found", async () => {
+			const query = await db('projects').select().first();
+			const id = 50;
+			const body = {
+				name: 'My Project',
+				id: 12
+			};
+			const res = await request(app).put(`/api/v1/projects/${id}`).send(body);
+			expect(res.status).toEqual(404);
+			expect(res.text).toEqual(`No entry found in \"projects\" with id of 50 to update.`);
+		});
+	});
 
 	describe('DELETE /api/v1/palettes/:id', () => {
 		it('should return a message saying the palette was updated', async () => {
@@ -168,6 +202,21 @@ describe('Server', () => {
 			await request(app).delete(`/api/v1/palettes/2`);
 			const result = await db('palettes').where({ id: 2 }).first();
 			expect(result).toEqual(undefined);
+		});
+	});
+	describe('DELETE /api/v1/projects/:id', () => {
+		it('should return a message saying the project was updated', async () => {
+			const query = await db('projects').select().first();
+			const id = query.id;
+			const res = await request(app).delete(`/api/v1/projects/${id}`);
+			expect(res.status).toEqual(200);
+			expect(res.text).toEqual(`Project and associated palettes with id: ${id} have been successfully deleted.`);
+		});
+		it('should return a message saying the project was not found', async () => {
+			const id = 50;
+			const res = await request(app).delete(`/api/v1/projects/${id}`);
+			expect(res.status).toEqual(200);
+			expect(res.text).toEqual(`No entry found in \"projects\" with id of ${id} to delete.`);
 		});
 	});
 });
