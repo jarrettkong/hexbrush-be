@@ -16,15 +16,24 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/v1/projects', (req, res) => {
-	db('projects')
-		.select()
-		.then(projectsData => {
-			if (!projectsData.length) {
-				return res.status(200).send('No data found in "projects" database.');
-			}
-			return res.status(200).json(projectsData);
-		})
-		.catch(() => res.sendStatus(500));
+	const name = req.query.name;
+	if (name) {
+		db('projects')
+			.where({ name })
+			.first()
+			.then(project => res.status(200).json(project))
+			.catch(() => res.sendStatus(500));
+	} else {
+		db('projects')
+			.select()
+			.then(projectsData => {
+				if (!projectsData.length) {
+					return res.status(200).send('No data found in "projects" database.');
+				}
+				return res.status(200).json(projectsData);
+			})
+			.catch(() => res.sendStatus(500));
+	}
 });
 
 app.get('/api/v1/palettes', (req, res) => {
